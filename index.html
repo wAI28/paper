@@ -6,10 +6,11 @@
     <title>종현이에게 전하는 마음</title>
     <style>
         :root {
-            --primary-color: #0095f6;
-            --bg-color: #fafafa;
+            --primary-color: #ff8da1; /* 진한 파스텔 핑크 */
+            --bg-color: #fff5f6; /* 아주 연한 핑크 배경 */
             --card-bg: #ffffff;
-            --text-color: #262626;
+            --text-color: #4a4a4a;
+            --accent-color: #ffdae0; /* 중간 파스텔 핑크 */
         }
 
         body {
@@ -17,23 +18,46 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0; padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* 하트 배경 애니메이션 */
+        .bg-hearts {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; overflow: hidden; pointer-events: none;
+        }
+
+        .heart {
+            position: absolute; bottom: -100px;
+            color: var(--accent-color);
+            font-size: 20px;
+            animation: moveUp 10s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes moveUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
         }
 
         header {
-            background: #fff; border-bottom: 1px solid #dbdbdb;
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 2px solid var(--accent-color);
             padding: 15px 20px; position: sticky; top: 0; z-index: 100;
             display: flex; flex-direction: column; align-items: center; gap: 10px;
+            backdrop-filter: blur(5px);
         }
 
-        h1 { font-size: 1.2rem; margin: 0; text-align: center; width: 100%; }
+        h1 { font-size: 1.2rem; margin: 0; text-align: center; color: #ff6b81; }
         
         .header-bottom { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; }
-        .user-info { font-size: 0.85rem; color: #8e8e8e; font-weight: 500; }
+        .user-info { font-size: 0.85rem; color: #a38086; font-weight: 500; }
 
         .btn-login {
             background-color: var(--primary-color); color: white;
-            border: none; padding: 6px 14px; border-radius: 4px;
+            border: none; padding: 6px 14px; border-radius: 20px;
             font-weight: bold; cursor: pointer; font-size: 0.85rem;
+            box-shadow: 0 2px 5px rgba(255, 141, 161, 0.3);
         }
 
         #posts-container {
@@ -42,75 +66,80 @@
         }
 
         .post-card {
-            background: var(--card-bg); border: 1px solid #dbdbdb;
-            border-radius: 8px; padding: 15px; position: relative;
+            background: var(--card-bg); border: 1px solid var(--accent-color);
+            border-radius: 15px; padding: 15px; position: relative;
             display: flex; flex-direction: column; height: 140px;
+            box-shadow: 0 4px 10px rgba(255, 218, 224, 0.5);
         }
 
         .post-header { display: flex; justify-content: space-between; align-items: flex-start; }
         .author-name { font-size: 0.8rem; font-weight: bold; color: var(--primary-color); margin-bottom: 5px; }
 
-        .post-card h3 { margin: 0 0 5px 0; font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .post-card h3 { margin: 0 0 5px 0; font-size: 0.95rem; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         
         .post-content { 
-            font-size: 0.9rem; color: #444; line-height: 1.4;
+            font-size: 0.9rem; color: #666; line-height: 1.4;
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
             overflow: hidden; text-overflow: ellipsis; flex-grow: 1;
         }
 
-        .post-footer { font-size: 0.7rem; color: #8e8e8e; margin-top: 8px; }
-        .edited-mark { color: #b0b0b0; margin-left: 5px; font-style: normal; }
+        .post-footer { font-size: 0.7rem; color: #b0b0b0; margin-top: 8px; }
+        .edited-mark { color: #d0d0d0; margin-left: 5px; font-style: normal; }
 
         .menu-btn {
             background: none; border: none; cursor: pointer; font-size: 1.2rem;
-            color: #8e8e8e; padding: 0 5px;
+            color: var(--accent-color); padding: 0 5px;
         }
 
         .menu-dropdown {
             display: none; position: absolute; right: 10px; top: 35px;
-            background: white; border: 1px solid #dbdbdb; border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 10;
+            background: white; border: 1px solid var(--accent-color); border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 10;
         }
 
         .menu-dropdown button {
             display: block; width: 100%; border: none; background: none;
-            padding: 8px 12px; text-align: left; font-size: 0.85rem; cursor: pointer;
+            padding: 10px 15px; text-align: left; font-size: 0.85rem; cursor: pointer; color: #666;
         }
-        .menu-dropdown button:hover { background: #fafafa; }
+        .menu-dropdown button:hover { background: var(--bg-color); color: var(--primary-color); }
 
         .fab {
             position: fixed; bottom: 30px; right: 30px;
-            width: 56px; height: 56px; background-color: var(--primary-color);
+            width: 60px; height: 60px; background-color: var(--primary-color);
             color: white; border-radius: 50%; display: flex;
-            justify-content: center; align-items: center; font-size: 30px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; border: none;
+            justify-content: center; align-items: center; font-size: 35px;
+            box-shadow: 0 4px 15px rgba(255, 141, 161, 0.4); cursor: pointer; border: none;
         }
 
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 200;
+            background: rgba(255, 218, 224, 0.4); justify-content: center; align-items: center; z-index: 200;
+            backdrop-filter: blur(3px);
         }
 
         .modal-content {
-            background: white; padding: 25px; border-radius: 12px;
+            background: white; padding: 25px; border-radius: 20px;
             width: 85%; max-width: 340px; position: relative;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 30px rgba(255, 141, 161, 0.2);
+            border: 2px solid var(--accent-color);
         }
 
         input, textarea {
             width: 100%; margin-bottom: 12px; padding: 12px;
-            border: 1px solid #dbdbdb; border-radius: 6px; box-sizing: border-box;
-            background: #fafafa;
+            border: 1px solid var(--accent-color); border-radius: 10px; box-sizing: border-box;
+            background: #fffafa; outline: none;
         }
+        input:focus, textarea:focus { border-color: var(--primary-color); }
 
-        .view-modal-content h3 { margin-top: 0; font-size: 1.1rem; }
-        .view-modal-content p { line-height: 1.6; white-space: pre-wrap; font-size: 0.95rem; color: #333; }
+        .view-modal-content h3 { color: var(--primary-color); }
     </style>
 </head>
 <body>
 
+<div class="bg-hearts" id="heart-container"></div>
+
 <header>
-    <h1>종현이에게 하고 싶은 말을 써주세요</h1>
+    <h1>🌸 종현이에게 전하는 마음 🌸</h1>
     <div class="header-bottom">
         <span id="user-display" class="user-info"></span>
         <button id="auth-btn" class="btn-login">로그인</button>
@@ -123,11 +152,11 @@
 
 <div class="modal" id="post-modal">
     <div class="modal-content">
-        <h3 id="modal-title" style="margin-top:0">새 메시지 작성</h3>
+        <h3 id="modal-title" style="margin-top:0; color: var(--primary-color);">새 메시지 작성</h3>
         <input type="text" id="post-input-title" placeholder="제목">
         <textarea id="post-input-content" rows="6" placeholder="내용을 입력하세요"></textarea>
-        <button id="save-btn" class="btn-login" style="width:100%; padding: 10px;">올리기</button>
-        <button id="close-modal" style="background:none; border:none; color:#8e8e8e; width:100%; margin-top:12px; cursor:pointer; font-size: 0.9rem;">취소</button>
+        <button id="save-btn" class="btn-login" style="width:100%; padding: 12px; font-size: 1rem;">올리기</button>
+        <button id="close-modal" style="background:none; border:none; color:#a38086; width:100%; margin-top:12px; cursor:pointer;">취소</button>
     </div>
 </div>
 
@@ -159,6 +188,20 @@
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
+    // 배경 하트 생성 스크립트
+    const heartContainer = document.getElementById('heart-container');
+    function createHeart() {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = '❤';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        heartContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 10000);
+    }
+    setInterval(createHeart, 800);
+
     let currentUser = null;
     let editId = null;
 
@@ -166,7 +209,6 @@
         currentUser = user;
         const userDisplay = document.getElementById('user-display');
         const authBtn = document.getElementById('auth-btn');
-        
         if (user) {
             userDisplay.innerText = `${user.displayName}님`;
             authBtn.innerText = "로그아웃";
@@ -198,7 +240,7 @@
             card.className = 'post-card';
             card.innerHTML = `
                 <div class="post-header">
-                    <span class="author-name">${data.author || '익명'}</span>
+                    <span class="author-name">From. ${data.author || '익명'}</span>
                     <button class="menu-btn" onclick="toggleMenu('${d.id}')">⋮</button>
                     <div class="menu-dropdown" id="menu-${d.id}">
                         <button onclick="viewPost('${data.author}', \`${data.title}\`, \`${data.content}\`)">자세히보기</button>
@@ -224,7 +266,7 @@
     };
 
     window.viewPost = (author, title, content) => {
-        document.getElementById('view-author').innerText = author;
+        document.getElementById('view-author').innerText = "From. " + author;
         document.getElementById('view-title').innerText = title;
         document.getElementById('view-text').innerText = content;
         document.getElementById('view-modal').style.display = 'flex';
@@ -262,11 +304,7 @@
         if (!title.trim() || !content.trim()) return;
 
         if (editId) {
-            await updateDoc(doc(db, "rollingpaper", editId), { 
-                title, 
-                content,
-                isEdited: true 
-            });
+            await updateDoc(doc(db, "rollingpaper", editId), { title, content, isEdited: true });
         } else {
             await addDoc(collection(db, "rollingpaper"), {
                 title, content, uid: currentUser.uid,

@@ -3,83 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>종현 롤링페이퍼</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <title>종현이에게 전하는 마음</title>
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 80px; }
-        
-        /* 헤더 개선: 버튼과 제목 겹침 방지 */
-        header { 
-            background: #fff; padding: 15px; 
-            display: flex; flex-direction: column; align-items: center;
-            position: sticky; top: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 100; 
-        }
-        .header-top { width: 100%; display: flex; justify-content: flex-end; margin-bottom: 10px; }
-        .login-btn { padding: 5px 15px; border-radius: 20px; border: 1px solid #007bff; background: #fff; color: #007bff; cursor: pointer; font-weight: bold; }
-        
-        #papers-container { 
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; 
-            padding: 15px; max-width: 600px; margin: auto; 
-        }
-        
-        .paper-card { 
-            background: #fff; padding: 15px; border-radius: 12px; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: relative; min-height: 100px;
-        }
-        .paper-card h3 { margin: 0 0 8px 0; font-size: 1rem; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .paper-card p { margin: 0; font-size: 0.85rem; color: #555; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .paper-card .time { font-size: 0.7rem; color: #bbb; margin-top: 10px; display: block; }
-        
-        .edit-btns { position: absolute; bottom: 10px; right: 10px; }
-        .edit-btns span { cursor: pointer; margin-left: 8px; font-size: 0.9rem; }
-
-        .fab { 
-            position: fixed; bottom: 25px; right: 25px; 
-            width: 60px; height: 60px; background: #007bff; 
-            border-radius: 50%; color: white; border: none; 
-            font-size: 30px; box-shadow: 0 4px 12px rgba(0,123,255,0.4); cursor: pointer; z-index: 99;
+        :root {
+            --primary-color: #0095f6;
+            --bg-color: #fafafa;
+            --card-bg: #ffffff;
+            --text-color: #262626;
         }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 200; }
-        .modal-content { background: white; width: 85%; max-width: 400px; margin: 80px auto; padding: 25px; border-radius: 20px; box-sizing: border-box; }
-        input, textarea { width: 100%; margin-bottom: 12px; padding: 12px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
-        .btn-group { display: flex; gap: 10px; }
-        .btn-main { flex: 2; padding: 12px; background: #007bff; color: white; border: none; border-radius: 8px; font-weight: bold; }
-        .btn-sub { flex: 1; padding: 12px; background: #eee; border: none; border-radius: 8px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #fff;
+            border-bottom: 1px solid #dbdbdb;
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 { font-size: 1.2rem; margin: 0; }
+
+        .btn-login {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* 글 목록 레이아웃 (2열 구성) */
+        #posts-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .post-card {
+            background: var(--card-bg);
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .post-card h3 { margin: 0 0 10px 0; font-size: 1rem; }
+        .post-card p { margin: 0; color: #444; line-height: 1.4; }
+        .post-card .date { font-size: 0.75rem; color: #8e8e8e; margin-top: 10px; display: block; }
+
+        /* 글쓰기 버튼 (+) */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 56px;
+            height: 56px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            border: none;
+        }
+
+        /* 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        input, textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #dbdbdb;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="header-top">
-        <button class="login-btn" id="authBtn">로그인</button>
-    </div>
-    <h2 style="margin:0; font-size: 1.1rem; color: #111;">종현이에게 하고 싶은 말을 적어주세요</h2>
+    <h1>종현이에게 하고 싶은 말을 써주세요</h1>
+    <button id="auth-btn" class="btn-login">로그인</button>
 </header>
 
-<div id="papers-container">
-    <!-- 로딩 메시지 -->
-    <p style="grid-column: span 2; text-align: center; color: #888;">메시지를 불러오는 중...</p>
+<div id="posts-container">
+    <!-- 글이 여기 추가됩니다 -->
 </div>
 
-<button class="fab" id="openModalBtn">+</button>
+<button class="fab" id="open-modal">+</button>
 
-<div id="writeModal" class="modal">
+<div class="modal" id="post-modal">
     <div class="modal-content">
-        <h3 id="modalTitle">메시지 작성</h3>
-        <input type="text" id="postTitle" placeholder="제목을 입력하세요">
-        <textarea id="postContent" rows="5" placeholder="내용을 입력하세요"></textarea>
-        <div class="btn-group">
-            <button class="btn-sub" id="closeModalBtn">취소</button>
-            <button class="btn-main" id="confirmSaveBtn">확인</button>
-        </div>
+        <h3>새 메시지 작성</h3>
+        <input type="text" id="post-title" placeholder="제목">
+        <textarea id="post-content" rows="5" placeholder="내용을 입력하세요"></textarea>
+        <button id="save-btn" class="btn-login" style="width:100%">올리기</button>
+        <button id="close-modal" style="background:none; border:none; color:#8e8e8e; width:100%; margin-top:10px; cursor:pointer;">취소</button>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBr6fn0z5WiCb8r0ho9dRM_rcJFncEZfdg",
@@ -96,116 +158,78 @@
     const provider = new GoogleAuthProvider();
 
     let currentUser = null;
-    let editId = null;
 
-    // --- 데이터 불러오기 함수 (최적화: 호출 시에만 읽기) ---
-    async function loadPapers() {
-        const container = document.getElementById('papers-container');
-        const q = query(collection(db, "papers"), orderBy("createdAt", "desc"));
-        
-        try {
-            const querySnapshot = await getDocs(q);
-            container.innerHTML = '';
-            
-            if (querySnapshot.empty) {
-                container.innerHTML = '<p style="grid-column: span 2; text-align: center; color: #888;">첫 번째 메시지를 남겨보세요!</p>';
-                return;
-            }
-
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                const date = data.createdAt ? data.createdAt.toDate().toLocaleString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : "방금 전";
-                const isOwner = currentUser && currentUser.uid === data.uid;
-
-                const card = document.createElement('div');
-                card.className = 'paper-card';
-                card.innerHTML = `
-                    <h3>${data.title}</h3>
-                    <p>${data.content}</p>
-                    <span class="time">${data.author} | ${date}</span>
-                    ${isOwner ? `<div class="edit-btns">
-                        <span class="edit-btn">✏️</span>
-                        <span class="delete-btn">🗑️</span>
-                    </div>` : ''}
-                `;
-
-                // 수정/삭제 이벤트 리스너 등록
-                if (isOwner) {
-                    card.querySelector('.edit-btn').onclick = () => openEditModal(doc.id, data.title, data.content);
-                    card.querySelector('.delete-btn').onclick = () => deletePaper(doc.id);
-                }
-                
-                container.appendChild(card);
-            });
-        } catch (e) {
-            console.error("Error loading papers: ", e);
+    // --- 인증 로직 ---
+    const authBtn = document.getElementById('auth-btn');
+    authBtn.onclick = async () => {
+        if (!currentUser) {
+            await signInWithPopup(auth, provider);
+        } else {
+            await signOut(auth);
         }
-    }
+    };
 
-    // --- 인증 설정 ---
     onAuthStateChanged(auth, (user) => {
         currentUser = user;
-        document.getElementById('authBtn').innerText = user ? "로그아웃" : "로그인";
-        loadPapers(); // 유저 상태 바뀌면 권한 확인을 위해 다시 불러옴
+        authBtn.innerText = user ? "로그아웃" : "로그인";
+        loadPosts(); // 사용자 상태 변경 시 데이터 로드
     });
 
-    document.getElementById('authBtn').onclick = () => {
-        if (currentUser) signOut(auth);
-        else signInWithPopup(auth, provider);
-    };
+    // --- 글 관리 로직 ---
+    const modal = document.getElementById('post-modal');
+    document.getElementById('open-modal').onclick = () => modal.style.display = 'flex';
+    document.getElementById('close-modal').onclick = () => modal.style.display = 'none';
 
-    // --- 모달 제어 ---
-    const modal = document.getElementById('writeModal');
-    document.getElementById('openModalBtn').onclick = () => {
-        editId = null;
-        document.getElementById('modalTitle').innerText = "메시지 작성";
-        document.getElementById('postTitle').value = '';
-        document.getElementById('postContent').value = '';
-        modal.style.display = 'block';
-    };
-
-    document.getElementById('closeModalBtn').onclick = () => modal.style.display = 'none';
-
-    function openEditModal(id, title, content) {
-        editId = id;
-        document.getElementById('modalTitle').innerText = "메시지 수정";
-        document.getElementById('postTitle').value = title;
-        document.getElementById('postContent').value = content;
-        modal.style.display = 'block';
+    async function loadPosts() {
+        const q = query(collection(db, "rollingpaper"), orderBy("timestamp", "desc"));
+        const querySnapshot = await getDocs(q);
+        const container = document.getElementById('posts-container');
+        container.innerHTML = '';
+        
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const dateStr = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleDateString('ko-KR') : "";
+            
+            const card = `
+                <div class="post-card">
+                    <h3>${data.title}</h3>
+                    <p>${data.content}</p>
+                    <span class="date">${dateStr}</span>
+                </div>
+            `;
+            container.innerHTML += card;
+        });
     }
 
-    // --- 데이터 저장/삭제 ---
-    document.getElementById('confirmSaveBtn').onclick = async () => {
-        const title = document.getElementById('postTitle').value.trim();
-        const content = document.getElementById('postContent').value.trim();
-        
+    document.getElementById('save-btn').onclick = async () => {
+        if (!currentUser) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
+        const title = document.getElementById('post-title').value;
+        const content = document.getElementById('post-content').value;
+
         if (!title || !content) return alert("내용을 입력해주세요.");
 
         try {
-            if (editId) {
-                await updateDoc(doc(db, "papers", editId), { title, content });
-            } else {
-                await addDoc(collection(db, "papers"), {
-                    title,
-                    content,
-                    uid: currentUser ? currentUser.uid : null,
-                    author: currentUser ? currentUser.displayName : "게스트",
-                    createdAt: serverTimestamp()
-                });
-            }
+            await addDoc(collection(db, "rollingpaper"), {
+                title: title,
+                content: content,
+                timestamp: new Date(),
+                uid: currentUser.uid
+            });
             modal.style.display = 'none';
-            loadPapers(); // 작성 후 다시 읽기
+            document.getElementById('post-title').value = '';
+            document.getElementById('post-content').value = '';
+            loadPosts(); // 올린 후 즉시 읽기
         } catch (e) {
-            alert("저장 중 오류가 발생했습니다.");
+            console.error("Error adding document: ", e);
         }
     };
 
-    async function deletePaper(id) {
-        if (confirm("정말 삭제할까요?")) {
-            await deleteDoc(doc(db, "papers", id));
-            loadPapers(); // 삭제 후 다시 읽기
-        }
-    }
+    // 초기 로드
+    loadPosts();
 </script>
 
 </body>

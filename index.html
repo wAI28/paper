@@ -21,19 +21,19 @@
 
         header {
             background: #fff; border-bottom: 1px solid #dbdbdb;
-            padding: 10px 20px; position: sticky; top: 0; z-index: 100;
-            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px; position: sticky; top: 0; z-index: 100;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
 
-        h1 { font-size: 1.1rem; margin: 0; }
+        h1 { font-size: 1.2rem; margin: 0; text-align: center; width: 100%; }
         
-        .header-right { display: flex; align-items: center; gap: 10px; }
+        .header-bottom { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; }
         .user-info { font-size: 0.85rem; color: #8e8e8e; font-weight: 500; }
 
         .btn-login {
             background-color: var(--primary-color); color: white;
             border: none; padding: 6px 14px; border-radius: 4px;
-            font-weight: bold; cursor: pointer;
+            font-weight: bold; cursor: pointer; font-size: 0.85rem;
         }
 
         #posts-container {
@@ -59,7 +59,7 @@
         }
 
         .post-footer { font-size: 0.7rem; color: #8e8e8e; margin-top: 8px; }
-        .edited-mark { color: #b0b0b0; margin-left: 5px; font-style: italic; }
+        .edited-mark { color: #b0b0b0; margin-left: 5px; font-style: normal; }
 
         .menu-btn {
             background: none; border: none; cursor: pointer; font-size: 1.2rem;
@@ -111,7 +111,7 @@
 
 <header>
     <h1>종현이에게 하고 싶은 말을 써주세요</h1>
-    <div class="header-right">
+    <div class="header-bottom">
         <span id="user-display" class="user-info"></span>
         <button id="auth-btn" class="btn-login">로그인</button>
     </div>
